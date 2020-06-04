@@ -1,0 +1,9 @@
+newmtl @__skarllet_tri_withRGB
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 1.000 1.000 1.000
+	map_Ka @__skarllet_tri_withRGB.bmp
