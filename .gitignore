@@ -1,0 +1,62 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o  
+
+x64/*
+.vs/*
+Debug/*
+*.db
+*.opendb
+*.log
+*.tlog
+*.lastbuildstate
+*.idb
+*.pdb
+*.ilk
+*.ipdb
+*.iobj
+*.rar
+*.suo
+3rdPart/*
+data/*
+RealsenseCalib/color/*
+RealsenseCalib/depth/*
+RealsenseCalib/infred/*
+RealsenseCalib/realSenselib/*
+RealsenseCalib/x64
+RealsenseCalib/*.bmp
+RealsenseCalib/*.xml
+ExtractFaceFromRaw/dlib/*
+ExtractFaceFromRaw/x64/*
+ExtractFaceFromRaw/*.bmp
+ExtractFaceFromRaw/*.xml
+ExtractFaceFromRaw/*.dat
+ExtractFaceFromRaw/*.txt
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app

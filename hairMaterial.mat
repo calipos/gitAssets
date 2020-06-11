@@ -8,11 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: hairMaterial
-  m_Shader: {fileID: 4800000, guid: dfc5f351530d37349b311101f5a7e8c0, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _GLOSSYREFLECTIONS_OFF _MAPPING_LATITUDE_LONGITUDE_LAYOUT
-    _SPECULARHIGHLIGHTS_OFF
+  m_Shader: {fileID: 4800000, guid: d1022b121673fab4d9246c9a957d410a, type: 3}
+  m_ShaderKeywords: _MAPPING_LATITUDE_LONGITUDE_LAYOUT
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -20,6 +19,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Brightness:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -45,15 +52,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0ad7c3b453f14d444a9551d815523e83, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: ee68e9b171df48345b4590abd1b3964c, type: 3}
+    - _Normalmap:
+        m_Texture: {fileID: 2800000, guid: fa5438e100bebd949a453eab69f90520, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -64,45 +71,63 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ShiftMap:
-        m_Texture: {fileID: 2800000, guid: 6672ae9b9dac7be4c88bdd787bec126a, type: 3}
+    - _SecondarySparkle:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
+    - _ShiftMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularShift:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Ambient: 0.7
     - _BumpScale: 1
-    - _Cutoff: 0.814
-    - _Density: 30
+    - _BumpSize: 0
+    - _Cutoff: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Exponent: 4
+    - _Exponent: 18.2
     - _Exponent2: 4
-    - _Gloss: 167.3
-    - _GlossMapScale: 0
-    - _Glossiness: 0
-    - _GlossyReflections: 0
-    - _HeightFactor: 0.0711
+    - _Gloss: 100
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _HeightFactor: 0.028
     - _Metallic: 0
-    - _Mode: 1
+    - _Mode: 0
     - _OcclusionStrength: 1
-    - _Parallax: 0.08
+    - _OpacityGreyscale: 0
+    - _OpacityOn: 1
+    - _OpacityRGB: 0
+    - _Parallax: 0.02
     - _PrimaryShift: -1
-    - _SecondaryShift: -1
+    - _SecondaryShift: -0.43
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 0
-    - _SpecularStrength: 2.65
+    - _SpecExp1: 64
+    - _SpecExp2: 48
+    - _Specular: 0
+    - _SpecularHighlights: 1
+    - _SpecularStrength: 1.6
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _shiftSpec2: -0.5
+    - _shiftValue: 3.32
     m_Colors:
-    - _Color: {r: 0.21782663, g: 0.31298625, b: 0.8396226, a: 1}
-    - _ColorA: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorB: {r: 0, g: 0, b: 0, a: 1}
-    - _Diffuse: {r: 0.06336775, g: 0.09531058, b: 0.1509434, a: 1}
+    - _AmbientColor: {r: 0.6603774, g: 0.3333037, b: 0.3333037, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MaterialColor: {r: 0.2264151, g: 0.18012646, b: 0.086507656, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _Specular: {r: 1, g: 0, b: 0, a: 1}
+    - _Highlight1: {r: 1, g: 1, b: 1, a: 1}
+    - _Highlight2: {r: 1, g: 1, b: 1, a: 1}
+    - _MaterialColor: {r: 0.4528302, g: 0.4232378, b: 0.16874333, a: 1}
+    - _SpecColor1: {r: 0.7169812, g: 0.41204605, b: 0.3754005, a: 1}
+    - _SpecColor2: {r: 0.7735849, g: 0.72614807, b: 0.72614807, a: 1}
+    - _TintColor: {r: 0.7924528, g: 0.18316127, b: 0.18316127, a: 1}

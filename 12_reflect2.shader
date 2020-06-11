@@ -1,4 +1,6 @@
-﻿Shader "Custom/12_reflect2"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Custom/12_reflect2"
 {
     Properties
     {
@@ -31,7 +33,7 @@
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.worldPos = mul(_Object2World, v.vertex).xyz;
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				return o;
 			}

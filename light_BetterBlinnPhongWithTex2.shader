@@ -18,12 +18,19 @@
 		_Exponent("Exponent", Range(4, 32)) = 16
 		_Exponent2("Exponent2", Range(4, 32)) = 16
 	}
-		SubShader{
-		Pass{
+	SubShader
+	{
+	Pass
+	{
 		Tags{ "LightingType" = "ForwardBase" }
-		LOD 200
+		LOD 2000
+		ZWrite on
+		Cull Back
 		CGPROGRAM
 #include "Lighting.cginc"
+#include "AutoLight.cginc"
+#pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
+
 #pragma vertex vert
 #pragma fragment frag
 
@@ -59,6 +66,7 @@
 		float3 worldPos : TEXCOORD2;
 		float3 worldTangent:TEXCOORD3;
 		float3 worldBiTangent:TEXCOORD4;
+		SHADOW_COORDS(5) // put shadows data into TEXCOORD1
 	};
 	//计算uv偏移值
 	inline float2 CaculateParallaxUV(v2f i)
@@ -89,9 +97,13 @@
 		o.viewDir = normalize(o.worldPos-_WorldSpaceCameraPos );
 		o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-		o.worldTangent = UnityObjectToWorldDir(v.tangent);
-		half tangentSign = v.tangent.w*unity_WorldTransformParams.w;
-		o.worldBiTangent = cross(o.worldNormal, o.worldTangent) * tangentSign;
+		//o.worldTangent = UnityObjectToWorldDir(v.tangent);
+		//half tangentSign = v.tangent.w*unity_WorldTransformParams.w;
+		//o.worldBiTangent = cross(o.worldNormal, o.worldTangent) * tangentSign;
+
+		o.worldBiTangent = UnityObjectToWorldDir(v.tangent);
+		o.worldTangent = cross(o.worldBiTangent,o.worldNormal);
+		TRANSFER_SHADOW(o)
 		return o;
 	}
 	fixed4 frag(v2f i) : SV_Target
@@ -126,9 +138,36 @@
 	
 	//fixed3 color = (ambient * _MaterialColor.rgb + diffuse * _MaterialColor.rgb + spec1 * tex.a + spec2 * tex.a) * tex.rgb;
 	fixed3 color = (ambient * _MaterialColor.rgb + diffuse * _MaterialColor.rgb ) * tex.rgb + spec1  + spec2 ;
+	fixed shadow = SHADOW_ATTENUATION(i);
+	return fixed4(color, 1.0)* shadow;
 
-	return fixed4(color, 1.0);
+	}
+		ENDCG
+	}
+	Pass
+	{
+		Tags{ "LightMode" = "ShadowCaster" }
 
+		CGPROGRAM
+#pragma vertex vert
+#pragma fragment frag
+#pragma multi_compile_shadowcaster
+#include "UnityCG.cginc"
+
+		struct v2f {
+		V2F_SHADOW_CASTER;
+	};
+
+	v2f vert(appdata_base v)
+	{
+		v2f o;
+		TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+			return o;
+	}
+
+	float4 frag(v2f i) : SV_Target
+	{
+		SHADOW_CASTER_FRAGMENT(i)
 	}
 		ENDCG
 	}
