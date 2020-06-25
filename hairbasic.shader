@@ -35,7 +35,7 @@ Shader "Custom/hairbasic"
 		{
 			Tags {"Queue" = "Transparent" "RenderType" = "Transparent" }
 			//Tags {"RenderType" = "Opaque" }
-			LOD 100
+			LOD 200
 			//Transparent
 			//ZWrite On
 			ZWrite Off
@@ -43,55 +43,47 @@ Shader "Custom/hairbasic"
 			//Blend SrcAlpha OneMinusSrcAlpha
 			Cull Off
 
-			Blend One One
-
+			Blend One One 
 
 			Pass
 			{
 				CGPROGRAM
 				#pragma vertex vert
-				#pragma fragment frag
-				 
+				#pragma fragment frag 
 #include "UnityCG.cginc" 
 #include "Lighting.cginc" 
 #include "AutoLight.cginc"
 				int numberOfSetBits(int i)
-{
-	int count = 0;
-	i = max(0, i);
-	while (i)
-	{
-		count += i & 1;
-		i >>= 1;
-	}
-	return count;
-
-	//return 1;
-	//// Java: use >>> instead of >>
-	//// C or C++: use uint32_t
-	//i = i - ((i >> 1) & 0x55555555);
-	//i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
-	//return (((i + (i >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
-}
+				{
+					int count = 0;
+					i = max(0, i);
+					while (i)
+					{
+						count += i & 1;
+						i >>= 1;
+					}
+					return count;
+					//return 1;
+					//// Java: use >>> instead of >>
+					//// C or C++: use uint32_t
+					//i = i - ((i >> 1) & 0x55555555);
+					//i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
+					//return (((i + (i >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
+				}
 
 				// Sets all upper bits of input to 0
 				uint mask(int n, int num_rightmost_bits)
 				{
 					int result = n;
-
 					num_rightmost_bits = min(16, num_rightmost_bits);
-
 					int mask = 0;
 					for (int i = 0; i < num_rightmost_bits; i++)
 					{
 						mask |= 1 << i;
 					}
-
 					result &= mask;
-
 					return result;
 				}
-
 
 				float Normalize_Depth(float z, float near, float far)
 				{
@@ -116,7 +108,7 @@ Shader "Custom/hairbasic"
 					float dotTH = dot(T, H);
 					float sinTH = sqrt(1.0 - dotTH * dotTH);
 					float dirAtten = smoothstep(-1.0, 0.0, dot(T, H));
-					return dirAtten * pow(sinTH, exponent);
+					return  dirAtten*pow(sinTH, exponent);
 				}
 
 				float4 HairLighting(float3 tangent, float3 normal, float3 lightVec, float3 viewVec, float2 uv,
@@ -130,14 +122,13 @@ Shader "Custom/hairbasic"
 					float3 t2 = ShiftTangent(tangent, normal, secondaryShift + shiftTex);
 					// diffuse lighting: the lerp shifts the shadow boundary for a softer look
 					float3 diffuse = saturate(lerp(0.25, 1.0, dot(normal, lightVec) + ambientColor));
-					//float3 diffuse = saturate(lerp(0.25, 1.0, dot(normal, lightVec)));
 					diffuse *= diffuseAlbedo * tint;
 
 					// specular lighting
 					float3 specular = specularColor1 * StrandSpecular(t1, viewVec, lightVec, specExp1);
 					// add 2nd specular term, modulated with noise texture
 					float specMask = secondarySparkle; // approximate sparkles using texture
-					specular += specularColor2 * specMask * StrandSpecular(t2, viewVec, lightVec, specExp2);
+					//specular += specularColor2 * specMask * StrandSpecular(t2, viewVec, lightVec, specExp2);
 					// final color assembly
 					float4 o;
 					o.rgb = (diffuse + specular) * diffuseAlbedo * lightColor;
@@ -236,9 +227,13 @@ Shader "Custom/hairbasic"
 					o.posModelSpace = v.pos;
 					o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-					o.biTangentWorldSpace = UnityObjectToWorldNormal(v.tangent);
+					//o.biTangentWorldSpace = UnityObjectToWorldNormal(v.tangent);
+					//o.normalWorldSpace = UnityObjectToWorldNormal(v.normal);
+					//o.tangentWorldSpace = normalize(cross(o.biTangentWorldSpace, o.normalWorldSpace)) * v.tangent.w;
+
+					o.tangentWorldSpace = UnityObjectToWorldNormal(v.tangent);
 					o.normalWorldSpace = UnityObjectToWorldNormal(v.normal);
-					o.tangentWorldSpace = normalize(cross(o.biTangentWorldSpace,o.normalWorldSpace)) * v.tangent.w;
+					o.biTangentWorldSpace = normalize(cross(o.normalWorldSpace,o.tangentWorldSpace)) * v.tangent.w;
 
 					// https://docs.unity3d.com/Manual/SL-DepthTextures.html
 					// http://williamchyr.com/2013/11/unity-shaders-depth-and-normal-textures/
@@ -270,7 +265,6 @@ Shader "Custom/hairbasic"
 					// http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/#rendering-the-shadow-map
 					float4 shadowWorld = mul(unity_ObjectToWorld, float4(i.posModelSpace.xyz, 1.0));
 					float4 shadowCoord = mul(_DepthVP, shadowWorld);
-
 					float4 shadowLightSpace = mul(_DepthView, shadowWorld);
 
 
